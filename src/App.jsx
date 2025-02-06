@@ -1,62 +1,38 @@
 import { useState } from 'react'
-//import './App.css'
+import { useFetch } from './hooks/useFetch'
 
-//Custom hook
 
-function useCounter(){
-  const [count, setCount] = useState(0);
-  function increase(){
-    setCount(()=>count+1)       
-}
-  function decrease(){
-    setCount(()=>count-1)       
-}
-  function reset(){
-    setCount(0)       
-}
 
-return {
-  count : count,
-  increase : increase,
-  decrease : decrease,
-  reset : reset
-}
 
-}
 
 
 function App() {
+  const [currentPost, setCurrentPost] = useState(1);
+ const{ finalData, loading }  = useFetch("https://jsonplaceholder.typicode.com/posts/"+currentPost);
   
-  
-  
+ if(loading){
+  return<div>
+    Loading...
+  </div>
+ } 
 
   return (  
     <>
-       <Counter/>
-       <Counter/>
-       <Counter/>
-       <Counter/>
-     
+        <button onClick={()=> setCurrentPost(1)}>1</button>
+        <br />
+        <br />
+        <button onClick={()=> setCurrentPost(2)}>2</button>
+        <br />
+        <br />
+        <button onClick={()=> setCurrentPost(3)}>3</button>
+        <br />
+        <br />
+        {JSON.stringify(finalData)}
+
     </>
   )
 }
 
-function Counter(){
-  const {count, increase, decrease, reset} = useCounter();
-   return <div>
-    <div>
-    { count }
-    </div>
-     <div>
-         <button onClick={increase}> Increase count </button>
-     <br />
-     <br />
-         <button onClick={decrease}> Decrease count </button>  
-     <br />
-     <br />
-         <button onClick={reset}> Reset Count </button>  
-     </div>
-   </div>
-}
+
 
 export default App
